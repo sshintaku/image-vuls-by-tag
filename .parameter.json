@@ -1,0 +1,4 @@
+{
+    "AlarmLevels" : ["critical"],
+    "RegEx" : "^maintainer:"
+}
