@@ -28,13 +28,13 @@ func main() {
 			for _, vulnerability := range item.VulnerabilityIssues {
 				var flag = false
 				for _, parameter := range params.AlarmLevels {
-					if parameter == "critical" || parameter == "high" || parameter == "important" || parameter == "medium" || parameter == "moderate" || parameter == "low" {
+					if vulnerability.Severity == parameter {
 						flag = true
 					}
 				}
 				if flag {
 
-					dateTarget := time.Now().Add(-time.Duration(params.AlarmDate)).Unix()
+					dateTarget := time.Now().Add(-time.Duration(params.FixDate)).Unix()
 					if vulnerability.FixDate < dateTarget {
 						fixdate := time.Unix(vulnerability.FixDate, 0)
 						report := ",," + vulnerability.PackageName + "," + vulnerability.PackageVersion + "," + vulnerability.Severity + "," + vulnerability.CVE + "," + vulnerability.Link + ",\"" + vulnerability.Status + "\"," + fmt.Sprint(fixdate)
@@ -87,5 +87,5 @@ func readParameters() Parameters {
 type Parameters struct {
 	AlarmLevels []string
 	RegEx       string
-	AlarmDate   int
+	FixDate     int
 }
